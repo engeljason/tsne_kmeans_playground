@@ -31,6 +31,16 @@ for t in t_list:
     path = f'Graphs/rate_{t}'
     if not os.path.exists(path):
         os.makedirs(path)
-    plt.savefig(f'Graphs/cluster_plot_{t}.png')
+    plt.savefig(f'{path}/cluster_plot_{t}.png')
     plt.clf()
 
+    inertias = []
+    for k in range(1, 11):
+        kmeans = KMeans(n_clusters=k, n_jobs=3, random_state=44312)
+        kmeans.fit_transform(tsne_data)
+        inertias.append(kmeans.inertia_)
+
+    plt.plot(range(1,11),inertias)
+    plt.xticks(range(1,11))
+    plt.savefig(f'{path}/k_means_analysis.png')
+    plt.clf()
